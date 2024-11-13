@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Tracker</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Flex container to arrange input sections horizontally */
+        .form-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        /* Input section styling */
+        .input-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Align elements in each form row */
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Button styling */
+        .add-button {
+            padding: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .income-button { background-color: #a3d8f4; }
+        .budget-button { background-color: #b3f4a3; }
+        .expense-button { background-color: #f4a3a3; }
+
+        /* Flex container to arrange charts horizontally */
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        /* Chart container setup */
+        .chart-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 30%; /* Adjust to make the planned budget chart bigger */
+        }
+
+        /* Chart size settings */
+        #overallBudgetChart {
+            width: 100%;
+            height: 400px; /* Make the planned budget chart larger */
+        }
+        #incomeChart, #expenseChart {
+            width: 100%;
+            height: 250px; /* Make the income and expense charts smaller */
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align: center;">Financial Tracker</h1>
+
+    <!-- Form Container (arranges all forms horizontally) -->
+    <div class="form-container">
+        
+        <!-- Income Section -->
+        <section class="input-section">
+            <h2>Add Income Source</h2>
+            <form id="income-form">
+                <div class="form-row">
+                    <label>Source:</label>
+                    <input type="text" id="income-source" placeholder="e.g., Salary" required>
+                </div>
+                <div class="form-row">
+                    <label>Amount:</label>
+                    <input type="number" id="income-amount" placeholder="e.g., 5000" required>
+                </div>
+                <button type="button" class="add-button income-button" onclick="addIncome()">Add Income</button>
+            </form>
+        </section>
+
+        <!-- Planned Budget Section -->
+        <section class="input-section">
+            <h2>Add to Planned Budget</h2>
+            <form id="budget-form">
+                <div class="form-row">
+                    <label>Category:</label>
+                    <input type="text" id="budget-category" placeholder="e.g., Savings" required>
+                </div>
+                <div class="form-row">
+                    <label>Amount:</label>
+                    <input type="number" id="budget-amount" placeholder="e.g., 2000" required>
+                </div>
+                <button type="button" class="add-button budget-button" onclick="addBudget()">Add to Planned Budget</button>
+            </form>
+        </section>
+
+        <!-- Expense Section -->
+        <section class="input-section">
+            <h2>Add Expense Category</h2>
+            <form id="expense-form">
+                <div class="form-row">
+                    <label>Category:</label>
+                    <input type="text" id="expense-category" placeholder="e.g., Rent" required>
+                </div>
+                <div class="form-row">
+                    <label>Amount:</label>
+                    <input type="number" id="expense-amount" placeholder="e.g., 1500" required>
+                </div>
+                <button type="button" class="add-button expense-button" onclick="addExpense()">Add Expense</button>
+            </form>
+        </section>
+
+    </div>
+
+    <!-- Chart Container (arranges all charts horizontally) -->
+    <div class="chart-container">
+        <!-- Income Breakdown Chart -->
+        <div class="chart-wrapper">
+            <h2>Income Breakdown</h2>
+            <canvas id="incomeChart"></canvas>
+        </div>
+
+        <!-- Overall Budget Chart (center and larger) -->
+        <div class="chart-wrapper">
+            <h2>Planned Budget</h2>
+            <canvas id="overallBudgetChart"></canvas>
+        </div>
+
+        <!-- Expenses Breakdown Chart -->
+        <div class="chart-wrapper">
+            <h2>Expenses Breakdown</h2>
+            <canvas id="expenseChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Script for managing data and rendering charts -->
+    <script>
+        // Initialize data storage for each chart
+        const budgetData = { categories: [], amounts: [] };
+        const incomeData = { sources: [], amounts: [] };
+        const expenseData = { categories: [], amounts: [] };
+
+        // Function to initialize each Chart.js instance
+        const createChart = (ctx, labels, data) => {
+            return new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create instances of each chart
+        const budgetChart = createChart(document.getElementById('overallBudgetChart').getContext('2d'), budgetData.categories, budgetData.amounts);
+        const incomeChart = createChart(document.getElementById('incomeChart').getContext('2d'), incomeData.sources, incomeData.amounts);
+        const expenseChart = createChart(document.getElementById('expenseChart').getContext('2d'), expenseData.categories, expenseData.amounts);
+
+        // Function to update any chart
+        function updateChart(chart, labels, data) {
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = data;
+            chart.update();
+        }
+
+        // Functions to add data to each chart and update them
+
+        // Add to Planned Budget
+        function addBudget() {
+            const category = document.getElementById("budget-category").value;
+            const amount = parseFloat(document.getElementById("budget-amount").value);
+
+            if (category && !isNaN(amount) && amount > 0) {
+                budgetData.categories.push(category);
+                budgetData.amounts.push(amount);
+
+                updateChart(budgetChart, budgetData.categories, budgetData.amounts);
+
+                document.getElementById("budget-category").value = '';
+                document.getElementById("budget-amount").value = '';
+            }
+        }
+
+        // Add to Income Breakdown
+        function addIncome() {
+            const source = document.getElementById("income-source").value;
+            const amount = parseFloat(document.getElementById("income-amount").value);
+
+            if (source && !isNaN(amount) && amount > 0) {
+                incomeData.sources.push(source);
+                incomeData.amounts.push(amount);
+
+                updateChart(incomeChart, incomeData.sources, incomeData.amounts);
+
+                document.getElementById("income-source").value = '';
+                document.getElementById("income-amount").value = '';
+            }
+        }
+
+        // Add to Expenses Breakdown
+        function addExpense() {
+            const category = document.getElementById("expense-category").value;
+            const amount = parseFloat(document.getElementById("expense-amount").value);
+
+            if (category && !isNaN(amount) && amount > 0) {
+                expenseData.categories.push(category);
+                expenseData.amounts.push(amount);
+
+                updateChart(expenseChart, expenseData.categories, expenseData.amounts);
+
+                document.getElementById("expense-category").value = '';
+                document.getElementById("expense-amount").value = '';
+            }
+        }
+    </script>
+
+</body>
+</html>
