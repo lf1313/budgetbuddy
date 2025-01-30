@@ -5,7 +5,7 @@
         <title>Income and Expense Tracker</title>
       </head>
       <body>
-        <p id="test">59</p>
+        
         <table id="inputs">
           <tr>
             <td>Total</td>
@@ -39,11 +39,7 @@
             <td>3</td>
           </tr>
         </table>
-        <table>
-          <td>A</td>
-          <td>B</td>
-          <td>C</td>
-        </table>
+        
       </body>
     </html>
   </template>
