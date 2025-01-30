@@ -26,15 +26,15 @@
       <h2>Why Choose BudgetBuddy?</h2>
       <div class="cta-items">
         <div class="cta-item">
-          <img src="/assets/icons/track.svg" alt="Track Expenses">
+          <span class="material-icons">assignment</span>
           <p>Track your expenses easily and efficiently.</p>
         </div>
         <div class="cta-item">
-          <img src="/assets/icons/savings.svg" alt="Save More">
+          <span class="material-icons">savings</span>
           <p>Save more money with smart budgeting tools.</p>
         </div>
         <div class="cta-item">
-          <img src="/assets/icons/goals.svg" alt="Set Goals">
+          <span class="material-icons">flag</span>
           <p>Set financial goals and achieve them faster.</p>
         </div>
       </div>
