@@ -17,6 +17,9 @@
         <li class="nav-item">
           <router-link to="/contact-us" class="nav-link">Contact Us</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/blog-post" class="nav-link">Blog Post</router-link>
+        </li>
       </ul>
     </nav>
     <router-view />

@@ -1,6 +1,6 @@
 <script setup>
 
-import picchart from '../frontend/src/views/picchart.vue'
+//import picchart from '../frontend/src/views/picchart.vue'
 
 </script>
 

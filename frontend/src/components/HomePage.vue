@@ -8,6 +8,7 @@
         <li><router-link to="/view-ledger">Expenses Table</router-link></li>
         <li><router-link to="/pie-chart">Pie Chart Summary</router-link></li>
         <li><router-link to="/contact-us">Feedback / Contact Us</router-link></li>
+        <li><router-link to="/blog-post">Go to Blog</router-link></li>
       </ul>
     </nav>
 
@@ -40,4 +41,3 @@ export default {
 <style scoped>
 /* Add your component-specific styles here if needed */
 </style>
-

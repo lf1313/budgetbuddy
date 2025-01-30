@@ -1,7 +1,6 @@
 <template>
   <div>
     <header>
-      <h1>BudgetBuddy</h1>
     </header>
     <h2>Contact Us / Feedback Form</h2>
     <form @submit.prevent="submitFeedback">
@@ -49,12 +48,7 @@ export default {
 body {
   font-family: Arial, sans-serif;
 }
-header {
-  background-color: #4CAF50;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
+
 form {
   max-width: 600px;
   margin: auto;
@@ -72,7 +66,7 @@ textarea {
   border-radius: 5px;
 }
 input[type="submit"] {
-  background-color: #4CAF50;
+  background-color: #6895c6;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -80,6 +74,6 @@ input[type="submit"] {
   cursor: pointer;
 }
 input[type="submit"]:hover {
-  background-color: #45a049;
+  background-color: #89b9f3;
 }
 </style>
