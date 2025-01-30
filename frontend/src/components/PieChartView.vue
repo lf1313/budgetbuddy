@@ -1,5 +1,6 @@
-<template> 
+<template>
   <div>
+    <!-- Form Containers for adding income, budget, and expense -->
     <div class="form-container">
       <section class="input-section">
         <h2>Add Income Source</h2>
@@ -47,19 +48,32 @@
       </section>
     </div>
 
-    <div class="chart-container">
-      <div class="chart-wrapper">
-        <canvas ref="incomeChart"></canvas>
-      </div>
-      <div class="chart-wrapper">
-        <canvas ref="overallBudgetChart"></canvas>
-      </div>
-      <div class="chart-wrapper">
-        <canvas ref="expenseChart"></canvas>
-      </div>
+    <!-- Pie Chart Containers for Income, Budget, and Expense -->
+    <div class="charts-wrapper">
+      <section class="chart-section">
+        <h3>Income Distribution</h3>
+        <div class="chart-wrapper">
+          <canvas ref="incomeChart"></canvas>
+        </div>
+      </section>
+
+      <section class="chart-section">
+        <h3>Budget Distribution</h3>
+        <div class="chart-wrapper">
+          <canvas ref="overallBudgetChart"></canvas>
+        </div>
+      </section>
+
+      <section class="chart-section">
+        <h3>Expense Distribution</h3>
+        <div class="chart-wrapper">
+          <canvas ref="expenseChart"></canvas>
+        </div>
+      </section>
     </div>
   </div>
 </template>
+
 
 <script>
 import Chart from "chart.js/auto";
@@ -213,12 +227,14 @@ export default {
 </script>
 
 <style>
+/* Form container */
 .form-container {
   display: flex;
   justify-content: space-around;
   margin: 20px 0;
 }
 
+/* Each input section styling */
 .input-section {
   width: 30%;
   text-align: center;
@@ -228,18 +244,33 @@ export default {
   margin: 10px 0;
 }
 
-.chart-container {
+/* Styling the section that contains pie charts */
+.charts-wrapper {
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  margin-top: 20px;
-  height: 100%;
+  align-items: flex-start;
+  margin-top: 40px;
+  padding-top: 20px;
+}
+
+/* Styling each individual chart wrapper */
+.chart-section {
+  width: 30%;  /* Adjust this width if necessary */
+  text-align: center; /* To center the chart title */
+  margin-bottom: 40px; /* Add spacing below charts */
 }
 
 .chart-wrapper {
-  width: 10%; 
-  min-height: 100px; 
+  width: 100%; /* Make sure each chart takes the full width of the section */
+  min-height: 250px;
   position: relative;
-  flex-grow: 1;
+  padding: 10px;
+  margin-top: 10px; /* Reduced margin-top for better alignment */
+}
+
+/* Canvas Styling */
+canvas {
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>
