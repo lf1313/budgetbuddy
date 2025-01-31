@@ -22,19 +22,34 @@
         </li>
       </ul>
     </nav>
+
+    <!-- Main page content is displayed here -->
     <router-view />
+
+    <!-- Footer Component -->
+    <FooterComponent />
   </div>
 </template>
 
 <script>
+// Import Footer Component
+import FooterComponent from './components/FooterCode.vue';
+
 export default {
   name: 'App',
+  components: {
+    FooterComponent,
+  },
 };
 </script>
 
 <style>
 body {
   font-family: Arial, sans-serif;
+}
+
+#app {
+  padding-bottom: 60px;
 }
 </style>
 
